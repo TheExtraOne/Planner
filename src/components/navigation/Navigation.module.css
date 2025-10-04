@@ -1,0 +1,24 @@
+.navLinks {
+  display: flex;
+  gap: var(--space-8);
+  padding-bottom: var(--space-2);
+}
+
+.navLink {
+  text-decoration: none;
+  color: var(--color-text-secondary);
+  font-weight: var(--font-medium);
+  padding: var(--space-3) 0;
+  position: relative;
+  transition: color var(--transition-base);
+  border-bottom: 2px solid transparent;
+}
+
+.navLink:hover {
+  color: var(--color-text-primary);
+}
+
+.navLinkActive {
+  color: var(--color-text-primary);
+  border-bottom-color: var(--color-info);
+}

@@ -4,16 +4,19 @@ import { Routes } from 'src/constants';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import Dashboard from './pages/Dashboard';
-import ProjectPage from './pages/ProjectPage';
-import ProfilePage from './pages/ProfilePage';
-import NotFound from './pages/NotFound';
-import Layout from './components/Layout';
-import { useState } from 'react';
+import Layout from './components/layout/Layout';
+import Loader from './components/loader/Loader';
+import { useState, Suspense, lazy } from 'react';
+
+// Lazy load pages (except DASHBOARD, LOGIN, and REGISTER)
+const ProjectPage = lazy(() => import('./pages/ProjectPage'));
+const ProfilePage = lazy(() => import('./pages/ProfilePage'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 /* TODO: 
 1. ✅ Add routing
-2. Add pages scaffolding
-3. Add lazy-loading for pages
+2. ✅ Add pages scaffolding
+3. ✅ Add lazy-loading for pages
 4. Theme
 5. Add logging
 6. Add CI/CD
@@ -60,18 +63,30 @@ function App() {
         },
         {
           path: Routes.PROJECT,
-          element: <ProjectPage />,
+          element: (
+            <Suspense fallback={<Loader />}>
+              <ProjectPage />
+            </Suspense>
+          ),
         },
         {
           path: Routes.PROFILE,
-          element: <ProfilePage />,
+          element: (
+            <Suspense fallback={<Loader />}>
+              <ProfilePage />
+            </Suspense>
+          ),
         },
       ],
     },
     // 404 page (outside Layout)
     {
       path: '*',
-      element: <NotFound />,
+      element: (
+        <Suspense fallback={<Loader />}>
+          <NotFound />
+        </Suspense>
+      ),
     },
   ]);
 
