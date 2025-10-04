@@ -1,0 +1,37 @@
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  padding: 1rem 2rem;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #f8f9fa;
+}
+
+.nav {
+  /* Navigation styles can be added here if needed */
+}
+
+.title {
+  margin: 0;
+  color: #333;
+}
+
+.mainContent {
+  flex: 1;
+  padding: 2rem;
+}
+
+.footer {
+  padding: 1rem 2rem;
+  border-top: 1px solid #e0e0e0;
+  background-color: #f8f9fa;
+  text-align: center;
+  color: #666;
+}
+
+.footerText {
+  margin: 0;
+}
