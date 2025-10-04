@@ -1,0 +1,146 @@
+.toggleContainer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.toggleLabel {
+  font-size: 0.875rem;
+  font-weight: var(--font-medium);
+  color: var(--color-text-secondary);
+  user-select: none;
+}
+
+.toggle {
+  position: relative;
+  width: 48px;
+  height: 24px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  outline: none;
+  background-color: var(--color-background-tertiary);
+  border: 1px solid var(--color-border);
+  -webkit-tap-highlight-color: transparent;
+  -webkit-focus-ring-color: transparent;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.toggle:focus {
+  outline: none;
+  box-shadow: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.toggle:focus-visible {
+  outline: none;
+  box-shadow: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.toggle:active {
+  outline: none;
+  box-shadow: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.toggleOff {
+  background-color: var(--color-background-tertiary);
+}
+
+.toggleOn {
+  background-color: var(--color-info);
+}
+
+.toggleThumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: var(--color-background-primary);
+  transition: transform var(--transition-base);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.toggleOn .toggleThumb {
+  transform: translateX(24px);
+}
+
+.toggleOff .toggleThumb {
+  transform: translateX(0);
+}
+
+/* Theme toggle specific styles */
+.themeToggle .toggleThumb {
+  background-color: var(--color-background-primary);
+  color: var(--color-text-primary);
+}
+
+.themeToggle.toggleOn .toggleThumb {
+  background-color: #fbbf24;
+  color: #92400e;
+}
+
+.themeToggle.toggleOff {
+  background-color: #374151;
+  border-color: #4b5563;
+}
+
+.themeToggle.toggleOff .toggleThumb {
+  background-color: var(--color-background-primary);
+  color: var(--color-text-secondary);
+}
+
+/* Hover states */
+.toggle:hover {
+  opacity: 0.8;
+}
+
+/* Disabled state */
+.toggle:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.toggle:disabled:hover {
+  opacity: 0.5;
+  transform: none;
+}
+
+/* Mobile-specific styles for better touch accessibility */
+@media (max-width: 768px) {
+  .toggle {
+    width: 64px;
+    height: 32px;
+    border-radius: 16px;
+  }
+
+  .toggleThumb {
+    width: 26px;
+    height: 26px;
+    top: 3px;
+    left: 3px;
+  }
+
+  .toggleOn .toggleThumb {
+    transform: translateX(32px);
+  }
+
+  .toggleOff .toggleThumb {
+    transform: translateX(0);
+  }
+
+  /* Larger icons on mobile for theme toggle */
+  .themeToggle .toggleThumb svg {
+    width: 20px;
+    height: 20px;
+  }
+}
