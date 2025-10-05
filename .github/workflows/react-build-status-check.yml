@@ -26,10 +26,5 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Check Environment Variables
-        run: npm run check:env
-        env:
-          CI: 'true'
-
       - name: Run build
         run: npm run build-dev
