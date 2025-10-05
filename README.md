@@ -1,4 +1,4 @@
-# 📘 Planner — MVP Documentation
+# 📘 TaskFlow — MVP Documentation
 
 A personal learning planner app that helps users create learning projects, break them into subgoals, track progress, and attach useful resources.
 
@@ -6,7 +6,7 @@ A personal learning planner app that helps users create learning projects, break
 
 ## 1. 🎯 Goal
 
-The **Learning Planner** application helps users structure and track their learning journey.
+The **TaskFlow** application helps users structure and track their learning journey.
 Each user can create projects, break them down into subgoals, attach useful materials, and monitor their progress.
 
 The MVP focuses on:

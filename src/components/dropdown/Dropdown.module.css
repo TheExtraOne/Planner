@@ -1,0 +1,81 @@
+.dropdownContainer {
+  position: relative;
+  display: inline-block;
+}
+
+.trigger {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity var(--transition-fast);
+}
+
+.trigger:hover {
+  opacity: 0.8;
+}
+
+.trigger:focus {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-base);
+}
+
+.dropdown {
+  position: absolute;
+  z-index: 1000;
+  min-width: 200px;
+  background-color: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: var(--space-2);
+  margin-top: var(--space-1);
+  animation: dropdownFadeIn var(--transition-fast) ease-out;
+}
+
+/* Position variants */
+.bottomRight {
+  top: 100%;
+  right: 0;
+}
+
+.bottomLeft {
+  top: 100%;
+  left: 0;
+}
+
+.topRight {
+  bottom: 100%;
+  right: 0;
+  margin-top: 0;
+  margin-bottom: var(--space-1);
+}
+
+.topLeft {
+  bottom: 100%;
+  left: 0;
+  margin-top: 0;
+  margin-bottom: var(--space-1);
+}
+
+/* Animation */
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Dark mode adjustments */
+@media (prefers-color-scheme: dark) {
+  .dropdown {
+    background-color: var(--color-background);
+    border-color: var(--color-border);
+    box-shadow: var(--shadow-lg);
+  }
+}
