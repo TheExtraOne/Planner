@@ -14,15 +14,6 @@ const ProjectPage = lazy(() => import('./pages/ProjectPage'));
 const ProfilePage = lazy(() => import('./pages/ProfilePage'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
-/* TODO: 
-1. ✅ Add routing
-2. ✅ Add pages scaffolding
-3. ✅ Add lazy-loading for pages
-4. ✅ Theme
-5. Add logging
-6. Add CI/CD
-7. Add deployment
-*/
 function App() {
   /* TODO: Remove this once authentication is implemented */
   const [isAuthenticated] = useState(true);
