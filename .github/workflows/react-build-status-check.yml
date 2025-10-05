@@ -1,0 +1,30 @@
+name: CI Build
+
+# This workflow will run on pull requests
+on:
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  ci-build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [24.1.0]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run build
+        run: npm run build

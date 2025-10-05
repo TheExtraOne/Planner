@@ -1,0 +1,64 @@
+.button {
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--color-border-dark);
+  border-radius: var(--radius-md);
+  font-weight: var(--font-medium);
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+/* Primary Button (Red) */
+.primaryButton {
+  background-color: var(--color-error);
+  color: var(--color-text-inverse);
+  border-color: var(--color-error);
+}
+
+.primaryButton:hover {
+  background-color: #c82333;
+  border-color: #bd2130;
+}
+
+/* Secondary Button (Green) */
+.secondaryButton {
+  background-color: var(--color-success);
+  color: var(--color-text-inverse);
+  border-color: var(--color-success);
+}
+
+.secondaryButton:hover {
+  background-color: var(--color-primary-700);
+  border-color: var(--color-primary-800);
+}
+
+/* Ghost Button (Transparent/Default) */
+.ghostButton {
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+  border-color: var(--color-border-dark);
+}
+
+.ghostButton:hover {
+  background-color: var(--color-background-secondary);
+  border-color: var(--color-border);
+}
+
+/* Icon Button */
+.iconButton {
+  padding: var(--space-2);
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  color: var(--color-text-secondary);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+}
+
+.iconButton:hover {
+  background-color: var(--color-background-tertiary);
+  color: var(--color-text-primary);
+  border-color: var(--color-border);
+}
