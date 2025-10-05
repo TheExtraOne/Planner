@@ -1,50 +1,64 @@
-import { Settings, Menu, X, LogOut } from 'lucide-react';
-import { useState } from 'react';
-import Button from 'src/components/button/Button.tsx';
+import { memo, useCallback, useState } from 'react';
 import Navigation from 'src/components/navigation/Navigation.tsx';
-import Toggle from 'src/components/toggle/Toggle.tsx';
+import HeaderActions from './HeaderActions';
+import MobileMenu from './MobileMenu';
 import styles from './Header.module.css';
 import useDeviceType from 'src/hooks/useDeviceType';
 
-/*
-TODO:
-1. ✅ Add logo
-2. ✅ Add normal style for navigation links
-3. Extract settings to a separate component
-4. ✅ Add responsive (hook)
-*/
-const Header = () => {
+const Header = memo(() => {
   const { isMobile } = useDeviceType();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isDarkTheme, setIsDarkTheme] = useState(false);
+  const [isSettingsDropdownOpen, setIsSettingsDropdownOpen] = useState(false);
+  // TODO: Implement theme switching logic
+  const [isLightTheme, setIsLightTheme] = useState(false);
+  // TODO: Implement language switching logic
+  const [language, setLanguage] = useState('en');
 
-  const handleLogout = () => {
+  const handleLogout = useCallback(() => {
     // TODO: Implement logout logic
     console.log('Logout clicked');
-  };
+  }, []);
 
-  const handleSettings = () => {
-    // TODO: Implement settings logic
-    console.log('Settings clicked');
-  };
+  const toggleSettings = useCallback(() => {
+    setIsSettingsDropdownOpen((prev) => !prev);
+  }, []);
 
-  const handleThemeToggle = (isDark: boolean) => {
-    setIsDarkTheme(isDark);
+  const closeSettingsDropdown = useCallback(() => {
+    setIsSettingsDropdownOpen(false);
+  }, []);
+
+  // TODO: Implement language switching logic
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const handleLanguageChange = useCallback((newLanguage: string) => {
+    setLanguage(newLanguage);
+    console.log('Language changed to:', newLanguage);
+  }, []);
+
+  const toggleTheme = useCallback((isDark: boolean) => {
+    setIsLightTheme(isDark);
     // TODO: Implement theme switching logic
     console.log('Theme toggled:', isDark ? 'dark' : 'light');
-  };
+  }, []);
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
+  const toggleMobileMenu = useCallback(() => {
+    setIsMobileMenuOpen((prev) => !prev);
+  }, []);
 
-  const closeMobileMenu = () => {
+  const closeMobileMenu = useCallback(() => {
     setIsMobileMenuOpen(false);
-  };
+  }, []);
 
   return (
-    <header className={styles.header}>
-      <nav className={styles.nav}>
+    <header
+      className={styles.header}
+      role='banner'
+      aria-label='Main navigation header'
+    >
+      <nav
+        className={styles.nav}
+        role='navigation'
+        aria-label='Primary navigation'
+      >
         <div className={styles.navLeft}>
           <div className={styles.logoContainer}>
             <img
@@ -56,62 +70,33 @@ const Header = () => {
           {!isMobile && <Navigation />}
         </div>
 
-        <div className={styles.navRight}>
-          {isMobile ? (
-            <Button onClick={toggleMobileMenu} variant='icon'>
-              <Menu size={20} />
-            </Button>
-          ) : (
-            <>
-              <Button onClick={handleSettings} variant='icon'>
-                <Settings size={16} />
-              </Button>
-              <Button onClick={handleLogout} variant='primary'>
-                Logout
-              </Button>
-            </>
-          )}
-        </div>
+        <HeaderActions
+          isMobile={isMobile}
+          isMobileMenuOpen={isMobileMenuOpen}
+          isSettingsOpen={isSettingsDropdownOpen}
+          isLightTheme={isLightTheme}
+          language={language}
+          onMobileMenuToggle={toggleMobileMenu}
+          onSettingsToggle={toggleSettings}
+          onSettingsClose={closeSettingsDropdown}
+          onThemeToggle={toggleTheme}
+          onLogout={handleLogout}
+        />
       </nav>
 
-      {/* Mobile Menu Overlay */}
       {isMobile && isMobileMenuOpen && (
-        <div className={styles.mobileMenuOverlay} onClick={closeMobileMenu}>
-          <div
-            className={styles.mobileMenu}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className={styles.mobileMenuHeader}>
-              <h3>Menu</h3>
-              <Button onClick={closeMobileMenu} variant='icon'>
-                <X size={20} />
-              </Button>
-            </div>
-            <div className={styles.mobileMenuContent}>
-              <Navigation />
-              <div className={styles.mobileMenuSettings}>
-                <div className={styles.themeToggleContainer}>
-                  <span className={styles.themeToggleLabel}>Theme</span>
-                  <Toggle
-                    isOn={isDarkTheme}
-                    onToggle={handleThemeToggle}
-                    variant='theme'
-                  />
-                </div>
-                <button
-                  onClick={handleLogout}
-                  className={styles.mobileLogoutButton}
-                >
-                  Logout
-                  <LogOut size={18} />
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <MobileMenu
+          onClose={closeMobileMenu}
+          isLightTheme={isLightTheme}
+          onThemeToggle={toggleTheme}
+          language={language}
+          onLogout={handleLogout}
+        />
       )}
     </header>
   );
-};
+});
+
+Header.displayName = 'Header';
 
 export default Header;
