@@ -12,7 +12,7 @@ const Header = memo(() => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSettingsDropdownOpen, setIsSettingsDropdownOpen] = useState(false);
   // TODO: Implement language switching logic
-  const [language, setLanguage] = useState('en');
+  const [language] = useState('en');
 
   const handleLogout = useCallback(() => {
     // TODO: Implement logout logic
@@ -28,11 +28,10 @@ const Header = memo(() => {
   }, []);
 
   // TODO: Implement language switching logic
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const handleLanguageChange = useCallback((newLanguage: string) => {
-    setLanguage(newLanguage);
-    console.log('Language changed to:', newLanguage);
-  }, []);
+  // const handleLanguageChange = useCallback((newLanguage: string) => {
+  //   setLanguage(newLanguage);
+  //   console.log('Language changed to:', newLanguage);
+  // }, []);
 
   const handleThemeToggle = useCallback(() => {
     toggleTheme();
