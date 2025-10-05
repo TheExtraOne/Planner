@@ -13,7 +13,7 @@ interface HeaderActionsProps {
   onMobileMenuToggle: () => void;
   onSettingsToggle: () => void;
   onSettingsClose: () => void;
-  onThemeToggle: (isDark: boolean) => void;
+  onThemeToggle: () => void;
   onLogout: () => void;
 }
 

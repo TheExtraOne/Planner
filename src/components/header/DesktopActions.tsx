@@ -9,7 +9,7 @@ interface DesktopActionsProps {
   onSettingsToggle: () => void;
   onSettingsClose: () => void;
   isLightTheme: boolean;
-  onThemeToggle: (isDark: boolean) => void;
+  onThemeToggle: () => void;
   language: string;
   onLogout: () => void;
 }

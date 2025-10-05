@@ -8,7 +8,7 @@ import styles from './Header.module.css';
 interface MobileMenuProps {
   onClose: () => void;
   isLightTheme: boolean;
-  onThemeToggle: (isDark: boolean) => void;
+  onThemeToggle: () => void;
   language: string;
   onLogout: () => void;
 }

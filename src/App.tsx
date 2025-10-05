@@ -6,6 +6,7 @@ import RegisterPage from './pages/RegisterPage';
 import Dashboard from './pages/Dashboard';
 import Layout from './components/layout/Layout';
 import Loader from './components/loader/Loader';
+import { ThemeProvider } from './contexts/ThemeContext';
 import { useState, Suspense, lazy } from 'react';
 
 // Lazy load pages (except DASHBOARD, LOGIN, and REGISTER)
@@ -90,7 +91,11 @@ function App() {
     },
   ]);
 
-  return <RouterProvider router={router} />;
+  return (
+    <ThemeProvider>
+      <RouterProvider router={router} />
+    </ThemeProvider>
+  );
 }
 
 export default App;

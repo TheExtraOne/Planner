@@ -5,7 +5,7 @@ import styles from './SettingsDropdown.module.css';
 
 interface SettingsDropdownProps {
   isLightTheme: boolean;
-  onThemeToggle: (isDark: boolean) => void;
+  onThemeToggle: () => void;
   language?: string;
 }
 
