@@ -1,6 +1,6 @@
 import { Sun, Moon } from 'lucide-react';
 import classNames from 'classnames';
-import styles from './Toggle.module.css';
+import styles from 'src/components/toggle/Toggle.module.css';
 
 interface ToggleProps {
   isOn: boolean;
@@ -43,9 +43,7 @@ const Toggle = ({
         aria-checked={isOn}
         aria-label={label || 'Toggle'}
       >
-        <span className={styles.toggleThumb}>
-          {variant === 'theme' && getToggleContent()}
-        </span>
+        <span className={styles.toggleThumb}>{getToggleContent()}</span>
       </button>
     </div>
   );

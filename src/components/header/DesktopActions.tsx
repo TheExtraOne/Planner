@@ -8,8 +8,6 @@ interface DesktopActionsProps {
   isSettingsOpen: boolean;
   onSettingsToggle: () => void;
   onSettingsClose: () => void;
-  isLightTheme: boolean;
-  onThemeToggle: () => void;
   language: string;
   onLogout: () => void;
 }
@@ -19,8 +17,6 @@ const DesktopActions = memo(
     isSettingsOpen,
     onSettingsToggle,
     onSettingsClose,
-    isLightTheme,
-    onThemeToggle,
     language,
     onLogout,
   }: DesktopActionsProps) => {
@@ -37,11 +33,7 @@ const DesktopActions = memo(
           onClose={onSettingsClose}
           position='bottomRight'
         >
-          <SettingsDropdown
-            isLightTheme={isLightTheme}
-            onThemeToggle={onThemeToggle}
-            language={language}
-          />
+          <SettingsDropdown language={language} />
         </Dropdown>
         <Button
           onClick={onLogout}

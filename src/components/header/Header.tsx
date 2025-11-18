@@ -1,21 +1,19 @@
 import { memo, useCallback, useState } from 'react';
 import Navigation from 'src/components/navigation/Navigation.tsx';
-import HeaderActions from './HeaderActions';
-import MobileMenu from './MobileMenu';
-import { useTheme } from 'src/hooks/useTheme.ts';
-import styles from './Header.module.css';
+import HeaderActions from 'src/components/header/HeaderActions.tsx';
+import styles from 'src/components/header/Header.module.css';
 import useDeviceType from 'src/hooks/useDeviceType';
+import MobileActions from 'src/components/header/MobileActions.tsx';
 
 const Header = memo(() => {
   const { isMobile } = useDeviceType();
-  const { isLight, toggleTheme } = useTheme();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSettingsDropdownOpen, setIsSettingsDropdownOpen] = useState(false);
-  // TODO: Implement language switching logic
+  // TODO: Implement language switching logic, move it to children
   const [language] = useState('en');
 
   const handleLogout = useCallback(() => {
-    // TODO: Implement logout logic
+    // TODO: Implement logout logic, move it to children
     console.log('Logout clicked');
   }, []);
 
@@ -32,11 +30,6 @@ const Header = memo(() => {
   //   setLanguage(newLanguage);
   //   console.log('Language changed to:', newLanguage);
   // }, []);
-
-  const handleThemeToggle = useCallback(() => {
-    toggleTheme();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const toggleMobileMenu = useCallback(() => {
     setIsMobileMenuOpen((prev) => !prev);
@@ -72,21 +65,17 @@ const Header = memo(() => {
           isMobile={isMobile}
           isMobileMenuOpen={isMobileMenuOpen}
           isSettingsOpen={isSettingsDropdownOpen}
-          isLightTheme={isLight}
           language={language}
           onMobileMenuToggle={toggleMobileMenu}
           onSettingsToggle={toggleSettings}
           onSettingsClose={closeSettingsDropdown}
-          onThemeToggle={handleThemeToggle}
           onLogout={handleLogout}
         />
       </nav>
 
       {isMobile && isMobileMenuOpen && (
-        <MobileMenu
+        <MobileActions
           onClose={closeMobileMenu}
-          isLightTheme={isLight}
-          onThemeToggle={handleThemeToggle}
           language={language}
           onLogout={handleLogout}
         />

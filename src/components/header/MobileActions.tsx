@@ -3,24 +3,28 @@ import { X, LogOut, Globe } from 'lucide-react';
 import Button from 'src/components/button/Button.tsx';
 import Navigation from 'src/components/navigation/Navigation.tsx';
 import Toggle from 'src/components/toggle/Toggle.tsx';
-import styles from './Header.module.css';
+import styles from 'src/components/header/Header.module.css';
+import { useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch, RootState } from 'src/stores/app.store';
+import { Theme } from 'src/constants';
+import { setTheme } from 'src/stores/theme.store';
 
 interface MobileMenuProps {
   onClose: () => void;
-  isLightTheme: boolean;
-  onThemeToggle: () => void;
   language: string;
   onLogout: () => void;
 }
 
-const MobileMenu = memo(
-  ({
-    onClose,
-    isLightTheme,
-    onThemeToggle,
-    language,
-    onLogout,
-  }: MobileMenuProps) => {
+const MobileActions = memo(
+  ({ onClose, language, onLogout }: MobileMenuProps) => {
+    const { isDarkMode } = useSelector((state: RootState) => state.theme);
+    const dispatch = useDispatch<AppDispatch>();
+
+    const handleThemeToggle = (checked: boolean) => {
+      const newTheme = checked ? Theme.LIGHT : Theme.DARK;
+      dispatch(setTheme(newTheme));
+    };
+
     const handleLogout = useCallback(() => {
       onLogout();
       onClose();
@@ -55,8 +59,8 @@ const MobileMenu = memo(
               <div className={styles.themeToggleContainer}>
                 <span className={styles.themeToggleLabel}>Theme</span>
                 <Toggle
-                  isOn={isLightTheme}
-                  onToggle={onThemeToggle}
+                  isOn={!isDarkMode}
+                  onToggle={handleThemeToggle}
                   variant='theme'
                   aria-label='Toggle theme'
                 />
@@ -93,4 +97,4 @@ const MobileMenu = memo(
   },
 );
 
-export default MobileMenu;
+export default MobileActions;
