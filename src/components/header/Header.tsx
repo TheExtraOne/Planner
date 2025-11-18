@@ -9,11 +9,11 @@ const Header = memo(() => {
   const { isMobile } = useDeviceType();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSettingsDropdownOpen, setIsSettingsDropdownOpen] = useState(false);
-  // TODO: Implement language switching logic
+  // TODO: Implement language switching logic, move it to children
   const [language] = useState('en');
 
   const handleLogout = useCallback(() => {
-    // TODO: Implement logout logic
+    // TODO: Implement logout logic, move it to children
     console.log('Logout clicked');
   }, []);
 
