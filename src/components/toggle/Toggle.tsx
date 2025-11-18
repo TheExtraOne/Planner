@@ -1,6 +1,6 @@
 import { Sun, Moon } from 'lucide-react';
 import classNames from 'classnames';
-import styles from './Toggle.module.css';
+import styles from 'src/components/toggle/Toggle.module.css';
 
 interface ToggleProps {
   isOn: boolean;

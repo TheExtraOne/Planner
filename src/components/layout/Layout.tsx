@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import Header from 'src/components/header/Header.tsx';
-import styles from './Layout.module.css';
+import styles from 'src/components/layout/Layout.module.css';
 
 const Layout = () => {
   return (

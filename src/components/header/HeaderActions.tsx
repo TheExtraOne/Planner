@@ -1,8 +1,8 @@
 import { memo } from 'react';
 import { Menu } from 'lucide-react';
 import Button from 'src/components/button/Button.tsx';
-import DesktopActions from './DesktopActions';
-import styles from './Header.module.css';
+import DesktopActions from 'src/components/header/DesktopActions.tsx';
+import styles from 'src/components/header/Header.module.css';
 
 interface HeaderActionsProps {
   isMobile: boolean;
@@ -13,7 +13,7 @@ interface HeaderActionsProps {
   onMobileMenuToggle: () => void;
   onSettingsToggle: () => void;
   onSettingsClose: () => void;
-  onThemeToggle: () => void;
+  onThemeToggle: (checked: boolean) => void;
   onLogout: () => void;
 }
 

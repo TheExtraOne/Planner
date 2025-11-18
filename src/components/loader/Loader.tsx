@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import styles from './Loader.module.css';
+import styles from 'src/components/loader/Loader.module.css';
 
 interface LoaderProps {
   size?: 'small' | 'medium' | 'large';

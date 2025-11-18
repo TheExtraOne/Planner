@@ -3,12 +3,12 @@ import { X, LogOut, Globe } from 'lucide-react';
 import Button from 'src/components/button/Button.tsx';
 import Navigation from 'src/components/navigation/Navigation.tsx';
 import Toggle from 'src/components/toggle/Toggle.tsx';
-import styles from './Header.module.css';
+import styles from 'src/components/header/Header.module.css';
 
 interface MobileMenuProps {
   onClose: () => void;
   isLightTheme: boolean;
-  onThemeToggle: () => void;
+  onThemeToggle: (checked: boolean) => void;
   language: string;
   onLogout: () => void;
 }

@@ -1,11 +1,11 @@
 import { memo } from 'react';
 import { Globe } from 'lucide-react';
 import Toggle from 'src/components/toggle/Toggle';
-import styles from './SettingsDropdown.module.css';
+import styles from 'src/components/dropdown/SettingsDropdown.module.css';
 
 interface SettingsDropdownProps {
   isLightTheme: boolean;
-  onThemeToggle: () => void;
+  onThemeToggle: (checked: boolean) => void;
   language?: string;
 }
 
