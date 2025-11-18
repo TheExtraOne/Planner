@@ -8,12 +8,10 @@ interface HeaderActionsProps {
   isMobile: boolean;
   isMobileMenuOpen: boolean;
   isSettingsOpen: boolean;
-  isLightTheme: boolean;
   language: string;
   onMobileMenuToggle: () => void;
   onSettingsToggle: () => void;
   onSettingsClose: () => void;
-  onThemeToggle: (checked: boolean) => void;
   onLogout: () => void;
 }
 
@@ -22,12 +20,10 @@ const HeaderActions = memo(
     isMobile,
     isMobileMenuOpen,
     isSettingsOpen,
-    isLightTheme,
     language,
     onMobileMenuToggle,
     onSettingsToggle,
     onSettingsClose,
-    onThemeToggle,
     onLogout,
   }: HeaderActionsProps) => {
     return (
@@ -48,8 +44,6 @@ const HeaderActions = memo(
             isSettingsOpen={isSettingsOpen}
             onSettingsToggle={onSettingsToggle}
             onSettingsClose={onSettingsClose}
-            isLightTheme={isLightTheme}
-            onThemeToggle={onThemeToggle}
             language={language}
             onLogout={onLogout}
           />

@@ -43,9 +43,7 @@ const Toggle = ({
         aria-checked={isOn}
         aria-label={label || 'Toggle'}
       >
-        <span className={styles.toggleThumb}>
-          {variant === 'theme' && getToggleContent()}
-        </span>
+        <span className={styles.toggleThumb}>{getToggleContent()}</span>
       </button>
     </div>
   );

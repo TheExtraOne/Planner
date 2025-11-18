@@ -1,18 +1,12 @@
 import { memo, useCallback, useState } from 'react';
 import Navigation from 'src/components/navigation/Navigation.tsx';
 import HeaderActions from 'src/components/header/HeaderActions.tsx';
-import MobileMenu from 'src/components/header/MobileMenu.tsx';
 import styles from 'src/components/header/Header.module.css';
 import useDeviceType from 'src/hooks/useDeviceType';
-import { useDispatch, useSelector } from 'react-redux';
-import type { AppDispatch, RootState } from 'src/stores/app.store';
-import { Theme } from 'src/constants';
-import { setTheme } from 'src/stores/theme.store';
+import MobileActions from 'src/components/header/MobileActions.tsx';
 
 const Header = memo(() => {
   const { isMobile } = useDeviceType();
-  const { isDarkMode } = useSelector((state: RootState) => state.theme);
-  const dispatch = useDispatch<AppDispatch>();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSettingsDropdownOpen, setIsSettingsDropdownOpen] = useState(false);
   // TODO: Implement language switching logic
@@ -36,11 +30,6 @@ const Header = memo(() => {
   //   setLanguage(newLanguage);
   //   console.log('Language changed to:', newLanguage);
   // }, []);
-
-  const handleThemeToggle = (checked: boolean) => {
-    const newTheme = checked ? Theme.LIGHT : Theme.DARK;
-    dispatch(setTheme(newTheme));
-  };
 
   const toggleMobileMenu = useCallback(() => {
     setIsMobileMenuOpen((prev) => !prev);
@@ -76,21 +65,17 @@ const Header = memo(() => {
           isMobile={isMobile}
           isMobileMenuOpen={isMobileMenuOpen}
           isSettingsOpen={isSettingsDropdownOpen}
-          isLightTheme={!isDarkMode}
           language={language}
           onMobileMenuToggle={toggleMobileMenu}
           onSettingsToggle={toggleSettings}
           onSettingsClose={closeSettingsDropdown}
-          onThemeToggle={handleThemeToggle}
           onLogout={handleLogout}
         />
       </nav>
 
       {isMobile && isMobileMenuOpen && (
-        <MobileMenu
+        <MobileActions
           onClose={closeMobileMenu}
-          isLightTheme={!isDarkMode}
-          onThemeToggle={handleThemeToggle}
           language={language}
           onLogout={handleLogout}
         />
