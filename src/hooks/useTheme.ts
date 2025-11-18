@@ -1,10 +1,6 @@
 import { useContext } from 'react';
 import ThemeContext from 'src/contexts/ThemeContext.tsx';
 
-/**
- * Hook to use theme context
- * @throws Error if used outside ThemeProvider
- */
 export const useTheme = () => {
   const context = useContext(ThemeContext);
 

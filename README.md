@@ -1,13 +1,13 @@
-# 📘 TaskFlow — MVP Documentation
+# 💰 TaskFlow — MVP Documentation
 
-A personal learning planner app that helps users create learning projects, break them into subgoals, track progress, and attach useful resources.
+A personal finance tracking app that helps users track their expenses by categories, analyze spending patterns, and gain insights into their financial habits through visual statistics.
 
 ---
 
 ## 1. 🎯 Goal
 
-The **TaskFlow** application helps users structure and track their learning journey.
-Each user can create projects, break them down into subgoals, attach useful materials, and monitor their progress.
+The **FinanceTracker** application helps users monitor and analyze their spending habits.
+Users can record purchases, categorize expenses, view statistics through diagrams, and understand which categories consume the most of their budget.
 
 The MVP focuses on:
 
@@ -15,10 +15,10 @@ The MVP focuses on:
 - **Email verification**
 - **Password reset** (via email)
 - **Profile management**
-- **Dashboard with projects**
-- **Project page with subgoals and resources**
-- **Progress tracking**
-- **Basic settings (theme, language, notifications)**
+- **Expense tracking** with categories
+- **Visual statistics** (circular diagrams) for day/week/month/year/custom periods
+- **Category management** (predefined + custom categories)
+- **Basic settings** (theme, language, notifications)
 
 ---
 
@@ -61,10 +61,13 @@ The MVP focuses on:
 - As a user, I can **reset my password** by requesting an email with a generated password or reset link.
 - As a logged-in user, I can **change my password** from my profile page.
 - As a logged-in user, I can **delete my account**.
-- As a logged-in user, I can **create, view, edit, and delete projects**.
-- As a logged-in user, I can **add, edit, delete, and mark subgoals** as completed.
-- As a logged-in user, I can **add, edit, and delete useful resources** for a project.
-- As a logged-in user, I can **see progress bars** reflecting completed subgoals.
+- As a logged-in user, I can **add expenses** with amount, category, date, and comment.
+- As a logged-in user, I can **view, edit, and delete expenses**.
+- As a logged-in user, I can **view statistics** (circular diagram) showing expenses by category for different time periods (day/week/month/year/custom).
+- As a logged-in user, I can **see category breakdown** with icons, percentages, and totals.
+- As a logged-in user, I can **browse predefined categories** with icons on the categories page.
+- As a logged-in user, I can **create custom categories** with icons.
+- As a logged-in user, I can **edit and delete custom categories**.
 - As a logged-in user, I can **change theme, language, and notification preferences**.
 
 ---
@@ -106,20 +109,41 @@ OAuth (Google, Apple, etc.) is **not included** in MVP.
 - Language: English (multi-language planned later)
 - Notifications: email and in-app (placeholders for now)
 
-### 5.4. Dashboard
+### 5.4. Header
 
-- Overview of all learning projects
-- Project card: title, progress bar, quick stats (done/total subgoals)
-- Create new project (modal form)
-- Click project → navigate to Project Details page
+- Navigation menu
+- Theme toggle
+- Language switcher
+- Login/Logout button
 
-### 5.5. Project Details
+### 5.5. Dashboard (Main Page)
 
-- Header: title, description, progress bar
-- Edit / Delete project
-- Subgoal list (CRUD)
-- Resource list (CRUD)
-- Progress auto-calculated
+- **Circular diagram** showing expenses by category
+  - Each color represents a category
+  - Period selector: Day / Week / Month / Year / Custom period
+- **Category breakdown list** below diagram:
+  - Category name
+  - Category icon
+  - Percentage of total expenses
+  - Total amount (in currency)
+- **Add Expense button** (plus icon)
+  - Opens modal/form to add new expense:
+    - Amount (sum)
+    - Category selection
+    - Date (defaults to today)
+    - Comment (optional)
+    - Create button
+
+### 5.6. Categories Page
+
+- **Predefined categories** with icons (from API):
+  - House, Transport, Car, Cafe, Health, Grocery, Sport, Education, Hobbies, Beauty, Clothes, etc.
+- **Add Category button** (plus icon)
+  - Opens modal/form to create custom category:
+    - Category name
+    - Icon selection
+    - Create button
+- **Edit/Delete** custom categories (predefined categories cannot be deleted)
 
 ---
 
@@ -127,11 +151,13 @@ OAuth (Google, Apple, etc.) is **not included** in MVP.
 
 Not in MVP, but planned:
 
-- Timeline / Calendar (due dates)
-- Notifications / Reminders
-- Analytics (streaks, hours spent)
-- Search & Filters
-- Tags / Categories
+- Income tracking
+- Budget planning and limits per category
+- Recurring expenses
+- Export to CSV/PDF
+- Expense search and filters
+- Receipt photo upload
+- AI insights
 - OAuth providers (Google, Apple)
 
 ---
@@ -150,7 +176,8 @@ model User {
   updatedAt        DateTime @updatedAt
 
   settings         UserSettings?
-  projects         Project[]
+  expenses         Expense[]
+  categories       Category[]
   verificationTokens VerificationToken[]
   resetTokens      ResetToken[]
 }
@@ -160,47 +187,39 @@ model UserSettings {
   userId        String  @unique
   theme         String  @default("light") // "light" | "dark"
   language      String  @default("en")
+  currency      String  @default("BYN")
   emailNotifications Boolean @default(true)
   inAppNotifications  Boolean @default(true)
 
   user          User    @relation(fields: [userId], references: [id])
 }
 
-model Project {
-  id          String    @id @default(cuid())
-  userId      String
-  title       String
-  description String?
-  tags        String[]  // optional
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-
-  subgoals    Subgoal[]
-  resources   Resource[]
-  user        User      @relation(fields: [userId], references: [id])
-}
-
-model Subgoal {
+model Category {
   id          String   @id @default(cuid())
-  projectId   String
-  title       String
-  description String?
-  completed   Boolean  @default(false)
+  userId      String?  // null for predefined categories
+  name        String
+  icon        String   // icon identifier/name
+  color       String?  // optional color code
+  isPredefined Boolean @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  project     Project  @relation(fields: [projectId], references: [id])
+  user        User?    @relation(fields: [userId], references: [id])
+  expenses    Expense[]
 }
 
-model Resource {
+model Expense {
   id          String   @id @default(cuid())
-  projectId   String
-  title       String
-  url         String
-  note        String?
+  userId      String
+  categoryId  String
+  amount      Decimal  // using Decimal for currency precision
+  date        DateTime @default(now())
+  comment     String?
   createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-  project     Project  @relation(fields: [projectId], references: [id])
+  user        User     @relation(fields: [userId], references: [id])
+  category    Category @relation(fields: [categoryId], references: [id])
 }
 
 model VerificationToken {
@@ -257,102 +276,66 @@ All protected routes require header:
 | GET    | `/api/users/me/settings` | Get settings    |
 | PUT    | `/api/users/me/settings` | Update settings |
 
-### Projects
+### Expenses
 
-| Method | Endpoint            | Description         |
-| ------ | ------------------- | ------------------- |
-| GET    | `/api/projects`     | List user projects  |
-| POST   | `/api/projects`     | Create project      |
-| GET    | `/api/projects/:id` | Get project details |
-| PUT    | `/api/projects/:id` | Update project      |
-| DELETE | `/api/projects/:id` | Delete project      |
+| Method | Endpoint                   | Description                                           |
+| ------ | -------------------------- | ----------------------------------------------------- |
+| GET    | `/api/expenses`            | List user expenses (with filters: date range)         |
+| POST   | `/api/expenses`            | Create expense                                        |
+| GET    | `/api/expenses/:id`        | Get expense details                                   |
+| PUT    | `/api/expenses/:id`        | Update expense                                        |
+| DELETE | `/api/expenses/:id`        | Delete expense                                        |
+| GET    | `/api/expenses/statistics` | Get statistics by period (day/week/month/year/custom) |
 
-### Subgoals
+### Categories
 
-| Method | Endpoint                            | Description                                  |
-| ------ | ----------------------------------- | -------------------------------------------- |
-| POST   | `/api/projects/:projectId/subgoals` | Add subgoal                                  |
-| PUT    | `/api/subgoals/:id`                 | Edit subgoal (title, description, completed) |
-| DELETE | `/api/subgoals/:id`                 | Delete subgoal                               |
-
-### Resources
-
-| Method | Endpoint                             | Description     |
-| ------ | ------------------------------------ | --------------- |
-| POST   | `/api/projects/:projectId/resources` | Add resource    |
-| PUT    | `/api/resources/:id`                 | Edit resource   |
-| DELETE | `/api/resources/:id`                 | Delete resource |
+| Method | Endpoint              | Description                                      |
+| ------ | --------------------- | ------------------------------------------------ |
+| GET    | `/api/categories`     | List all categories (predefined + user's custom) |
+| POST   | `/api/categories`     | Create custom category                           |
+| GET    | `/api/categories/:id` | Get category details                             |
+| PUT    | `/api/categories/:id` | Update custom category (only user's)             |
+| DELETE | `/api/categories/:id` | Delete custom category (only user's)             |
 
 ---
 
-## 9. 📊 Progress Calculation
+## 9. 📊 Statistics Calculation
+
+Statistics endpoint `/api/expenses/statistics` accepts query parameters:
+
+- `period`: `day` | `week` | `month` | `year` | `custom`
+- `startDate`: ISO date string (required for custom period)
+- `endDate`: ISO date string (required for custom period)
+
+Response format:
 
 ```ts
-progressPercent =
-  totalSubgoals === 0
-    ? 0
-    : Math.round((completedSubgoals / totalSubgoals) * 100);
+{
+  totalAmount: number,
+  period: string,
+  startDate: string,
+  endDate: string,
+  byCategory: [
+    {
+      categoryId: string,
+      categoryName: string,
+      categoryIcon: string,
+      amount: number,
+      percentage: number
+    }
+  ]
+}
 ```
 
-Returned in `/projects` and `/projects/:id`.
+Percentage calculation:
+
+```ts
+percentage = Math.round((categoryAmount / totalAmount) * 100);
+```
 
 ---
 
-## 10. 🧭 Frontend Structure
-
-```
-src/
-  api/
-    api.ts
-    authApi.ts
-    projectsApi.ts
-  app/
-    store.ts
-  features/
-    auth/
-    projects/
-    profile/
-    settings/
-  components/
-    Modal/
-    Button/
-    Input/
-    ProjectCard/
-    ProgressBar/
-  pages/
-    LoginPage.tsx
-    RegisterPage.tsx
-    Dashboard.tsx
-    ProjectPage.tsx
-    ProfilePage.tsx
-    SettingsPage.tsx
-  routes.tsx
-  styles/
-```
-
-**RTK Query**
-
-- `authApi` → register, login, verify, reset
-- `projectsApi` → CRUD projects, subgoals, resources
-- Use `providesTags`/`invalidatesTags` for caching updates
-
----
-
-## 11. 🧪 Testing
-
-### Frontend (Vitest)
-
-- Unit: components, reducers, RTK Query hooks
-- Integration: forms (login/register/project CRUD)
-
-### Backend (Vitest)
-
-- Unit: DTO validation, services
-- Integration: auth flows, CRUD for projects/subgoals/resources
-
----
-
-## 12. ⚙️ CI/CD (GitHub Actions)
+## 10. ⚙️ CI/CD (GitHub Actions)
 
 ### Frontend Workflow
 
@@ -366,30 +349,3 @@ src/
 
 Use GitHub Secrets for:
 `DATABASE_URL`, `JWT_SECRET`, `SMTP_USER`, `SMTP_PASS`, etc.
-
----
-
-## 13. ✅ Acceptance Criteria
-
-| Feature        | Criteria                                                      |
-| -------------- | ------------------------------------------------------------- |
-| Registration   | User receives verification email; cannot login until verified |
-| Login          | JWT token returned; invalid credentials handled               |
-| Password Reset | Email sent, password can be reset                             |
-| Project CRUD   | User can create/edit/delete; list updates automatically       |
-| Subgoals       | CRUD works; progress updates instantly                        |
-| Resources      | CRUD works; links stored                                      |
-| Profile        | User can edit data, change password, delete account           |
-| Settings       | Theme and language persist                                    |
-| Security       | Passwords hashed; tokens expire                               |
-
----
-
-## 14. 🧭 Next Steps / Roadmap
-
-- Calendar with due dates
-- In-app & email reminders
-- Analytics dashboard (streaks, charts)
-- Search & filters
-- OAuth login
-- AI-powered suggestions

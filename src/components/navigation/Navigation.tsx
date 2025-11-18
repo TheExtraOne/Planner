@@ -17,6 +17,16 @@ const Navigation = () => {
         Dashboard
       </NavLink>
       <NavLink
+        to={Routes.CATEGORIES}
+        className={({ isActive }) =>
+          classNames(styles.navLink, {
+            [styles.navLinkActive]: isActive,
+          })
+        }
+      >
+        Categories
+      </NavLink>
+      <NavLink
         to={Routes.PROFILE}
         className={({ isActive }) =>
           classNames(styles.navLink, {

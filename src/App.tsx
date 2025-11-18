@@ -10,7 +10,7 @@ import { ThemeProvider } from './contexts/ThemeContext';
 import { useState, Suspense, lazy } from 'react';
 
 // Lazy load pages (except DASHBOARD, LOGIN, and REGISTER)
-const ProjectPage = lazy(() => import('./pages/ProjectPage'));
+const CategoriesPage = lazy(() => import('./pages/CategoriesPage'));
 const ProfilePage = lazy(() => import('./pages/ProfilePage'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
@@ -54,10 +54,18 @@ function App() {
           element: <Dashboard />,
         },
         {
-          path: Routes.PROJECT,
+          path: Routes.CATEGORIES,
           element: (
             <Suspense fallback={<Loader />}>
-              <ProjectPage />
+              <CategoriesPage />
+            </Suspense>
+          ),
+        },
+        {
+          path: Routes.CATEGORIES,
+          element: (
+            <Suspense fallback={<Loader />}>
+              <CategoriesPage />
             </Suspense>
           ),
         },

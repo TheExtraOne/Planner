@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 export type DeviceType = 'mobile' | 'tablet' | 'desktop';
 
@@ -26,41 +26,6 @@ export interface UseDeviceTypeReturn {
   width: number;
 }
 
-/**
- * Custom hook to determine device type based on screen width
- * @param options Configuration options for breakpoints and SSR support
- * @returns Object containing device type information and utilities
- *
- * @example
- * ```tsx
- * import { useDeviceType } from '@/hooks';
- *
- * function MyComponent() {
- *   const { deviceType, isMobile, isTablet, isDesktop, width } = useDeviceType();
- *
- *   return (
- *     <div>
- *       <p>Device: {deviceType}</p>
- *       <p>Width: {width}px</p>
- *       {isMobile && <p>Mobile view active</p>}
- *       {isTablet && <p>Tablet view active</p>}
- *       {isDesktop && <p>Desktop view active</p>}
- *     </div>
- *   );
- * }
- *
- * // With custom breakpoints
- * const { deviceType } = useDeviceType({
- *   breakpoints: {
- *     mobile: 600,
- *     tablet: 900
- *   }
- * });
- *
- * // With SSR support
- * const { deviceType } = useDeviceType({ ssr: true });
- * ```
- */
 export const useDeviceType = (
   options: UseDeviceTypeOptions = {},
 ): UseDeviceTypeReturn => {
@@ -70,15 +35,18 @@ export const useDeviceType = (
   const finalBreakpoints = { ...defaultBreakpoints, ...breakpoints };
 
   // Function to determine device type based on width
-  const getDeviceType = (width: number): DeviceType => {
-    if (width < finalBreakpoints.mobile) {
-      return 'mobile';
-    } else if (width < finalBreakpoints.tablet) {
-      return 'tablet';
-    } else {
-      return 'desktop';
-    }
-  };
+  const getDeviceType = useCallback(
+    (width: number): DeviceType => {
+      if (width < finalBreakpoints.mobile) {
+        return 'mobile';
+      } else if (width < finalBreakpoints.tablet) {
+        return 'tablet';
+      } else {
+        return 'desktop';
+      }
+    },
+    [finalBreakpoints.mobile, finalBreakpoints.tablet],
+  );
 
   // Initialize state - use a default value for SSR
   const [deviceInfo, setDeviceInfo] = useState(() => {
@@ -116,7 +84,7 @@ export const useDeviceType = (
 
     // Cleanup
     return () => window.removeEventListener('resize', handleResize);
-  }, [finalBreakpoints.mobile, finalBreakpoints.tablet, ssr]);
+  }, [finalBreakpoints.mobile, finalBreakpoints.tablet, ssr, getDeviceType]);
 
   // Return computed values
   return {
