@@ -1,0 +1,150 @@
+/* Overlay */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--color-background-overlay);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.overlayClosing {
+  animation: fadeOut 0.3s ease-out;
+}
+
+/* Modal Container */
+.modal {
+  background-color: var(--color-background);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl);
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Desktop Modal */
+.modalDesktop {
+  width: 100%;
+  max-width: 500px;
+  min-height: 200px;
+}
+
+/* Mobile Bottom Sheet */
+.modalMobile {
+  width: 100%;
+  max-width: 100vw;
+  max-height: 85vh;
+  border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
+  margin: 0;
+  align-self: flex-end;
+  will-change: transform;
+  animation: slideInUp 0.3s ease-out;
+}
+
+.modalClosing {
+  animation: slideOutDown 0.3s ease-out;
+}
+
+/* Handlebar for Mobile */
+.handlebar {
+  width: 100%;
+  padding: var(--space-3) 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+
+.handlebar:active {
+  cursor: grabbing;
+}
+
+.handlebarLine {
+  width: 40px;
+  height: 4px;
+  background-color: var(--color-border-dark);
+  border-radius: var(--radius-full);
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4) var(--space-6);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.title {
+  font-size: var(--text-xl);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.closeButton {
+  margin-left: auto;
+}
+
+/* Content */
+.content {
+  padding: var(--space-6);
+  overflow-y: auto;
+  flex: 1;
+}
+
+.modalMobile .content {
+  max-height: calc(85vh - 80px); /* Account for handlebar and header */
+}
+
+/* Animations */
+@keyframes slideInUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideOutDown {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .modalDesktop {
+    max-width: 95vw;
+  }
+
+  .header {
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .content {
+    padding: var(--space-4);
+  }
+}

@@ -131,3 +131,44 @@
     height: 24px;
   }
 }
+
+.addButton {
+  position: fixed;
+  bottom: 100px;
+  right: var(--space-6);
+  width: 56px;
+  height: 56px;
+  padding: 0;
+  border-radius: var(--radius-full);
+  background-color: var(--color-primary-500);
+  color: #ffffff;
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 101;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.addButton:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  background-color: var(--color-primary-600);
+  border-color: transparent;
+}
+
+.addButton:active {
+  transform: scale(0.95);
+}
+
+@media (max-width: 768px) {
+  .addButton {
+    bottom: 75px;
+    right: var(--space-4);
+    width: 60px;
+    height: 60px;
+  }
+
+  .addButton svg {
+    width: 30px;
+    height: 30px;
+  }
+}

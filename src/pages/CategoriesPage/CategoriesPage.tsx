@@ -13,9 +13,12 @@ import {
   Shirt,
   GraduationCap,
   Gamepad2,
+  Plus,
   type LucideIcon,
 } from 'lucide-react';
 import classNames from 'classnames';
+import Button from 'src/components/button/Button.tsx';
+import Modal from 'src/components/modal/Modal.tsx';
 import styles from 'src/pages/CategoriesPage/CategoriesPage.module.css';
 
 interface CategoryConfig {
@@ -40,23 +43,29 @@ const categoriesConfig: CategoryConfig[] = [
   { icon: Gamepad2, title: 'Leisure', color: 'rgba(6, 182, 212, 1)' },
 ];
 
+// TODO: refactor when backend is implemented. Need decomposition
 const CategoriesPage = () => {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [newCategories, setNewCategories] = useState<CategoryConfig[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const getBackgroundColor = (color: string) =>
+    color.replace(
+      /rgba\((\d+),\s*(\d+),\s*(\d+),\s*1\)/,
+      'rgba($1, $2, $3, 0.15)',
+    );
 
   return (
     <div className={styles.container}>
       <div className={styles.content}>
         <h1 className={styles.title}>Categories</h1>
         <div className={styles.categoriesGrid}>
-          {categoriesConfig.map((category, index) => {
+          {[...categoriesConfig, ...newCategories].map((category, index) => {
             const IconComponent = category.icon;
             const isSelected = selectedIndex === index;
 
             // Convert rgba to lighter version for background (reduce opacity)
-            const backgroundColor = category.color.replace(
-              /rgba\((\d+),\s*(\d+),\s*(\d+),\s*1\)/,
-              'rgba($1, $2, $3, 0.15)',
-            );
+            const backgroundColor = getBackgroundColor(category.color);
 
             return (
               <div
@@ -88,6 +97,33 @@ const CategoriesPage = () => {
           })}
         </div>
       </div>
+      <Button
+        variant='icon'
+        className={styles.addButton}
+        onClick={() => setIsModalOpen(true)}
+      >
+        <Plus size={24} />
+      </Button>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title='Add New Category'
+      >
+        <div>
+          <p>Add new category form will go here</p>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
+            quos. Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing
+            elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur
+            adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet
+            consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit
+            amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor
+            sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum
+            dolor sit amet consectetur adipisicing elit. Quisquam, quos.
+          </p>
+        </div>
+      </Modal>
     </div>
   );
 };

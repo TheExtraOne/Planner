@@ -1,4 +1,5 @@
-import { memo, useCallback, useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useState, useMemo } from 'react';
+import { createPortal } from 'react-dom';
 import { X, LogOut, Globe } from 'lucide-react';
 import classNames from 'classnames';
 import Button from 'src/components/button/Button.tsx';
@@ -23,6 +24,8 @@ const MobileActions = memo(
     const dispatch = useDispatch<AppDispatch>();
     const [isClosing, setIsClosing] = useState(false);
     const [isHidden, setIsHidden] = useState(!isMobileMenuOpen);
+
+    const modalRoot = useMemo(() => document.getElementById('modal-root'), []);
 
     useEffect(() => {
       if (isMobileMenuOpen) {
@@ -50,11 +53,11 @@ const MobileActions = memo(
       onClose();
     }, [onLogout, onClose]);
 
-    if (isHidden) {
+    if (isHidden || !modalRoot) {
       return null;
     }
 
-    return (
+    const content = (
       <div
         className={classNames(styles.mobileMenuOverlay, {
           [styles.mobileMenuOverlayClosing]: isClosing,
@@ -122,6 +125,8 @@ const MobileActions = memo(
         </div>
       </div>
     );
+
+    return createPortal(content, modalRoot);
   },
 );
 
