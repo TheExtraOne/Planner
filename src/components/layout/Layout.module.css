@@ -1,12 +1,15 @@
 .layout {
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .mainContent {
   flex: 1;
   padding: var(--space-8);
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .footer {
@@ -15,6 +18,22 @@
   background-color: var(--color-background-secondary);
   text-align: center;
   color: var(--color-text-secondary);
+  position: sticky;
+  bottom: 0;
+  z-index: 100;
+  flex-shrink: 0;
+  border-top-left-radius: var(--radius-lg);
+  border-top-right-radius: var(--radius-lg);
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+}
+
+@media (min-width: 768px) {
+  .footer {
+    height: 80px;
+  }
 }
 
 .footerText {

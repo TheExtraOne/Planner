@@ -1,5 +1,6 @@
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { X, LogOut, Globe } from 'lucide-react';
+import classNames from 'classnames';
 import Button from 'src/components/button/Button.tsx';
 import Navigation from 'src/components/navigation/Navigation.tsx';
 import Toggle from 'src/components/toggle/Toggle.tsx';
@@ -11,14 +12,33 @@ import { setTheme } from 'src/stores/theme.store';
 
 interface MobileMenuProps {
   onClose: () => void;
+  isMobileMenuOpen: boolean;
   language: string;
   onLogout: () => void;
 }
 
 const MobileActions = memo(
-  ({ onClose, language, onLogout }: MobileMenuProps) => {
+  ({ onClose, isMobileMenuOpen, language, onLogout }: MobileMenuProps) => {
     const { isDarkMode } = useSelector((state: RootState) => state.theme);
     const dispatch = useDispatch<AppDispatch>();
+    const [isClosing, setIsClosing] = useState(false);
+    const [isHidden, setIsHidden] = useState(!isMobileMenuOpen);
+
+    useEffect(() => {
+      if (isMobileMenuOpen) {
+        setIsHidden(false);
+        setIsClosing(false);
+      } else {
+        // Start closing animation
+        setIsClosing(true);
+        // After animation completes (300ms), hide the component
+        const timer = setTimeout(() => {
+          setIsHidden(true);
+          setIsClosing(false);
+        }, 300);
+        return () => clearTimeout(timer);
+      }
+    }, [isMobileMenuOpen]);
 
     const handleThemeToggle = (checked: boolean) => {
       const newTheme = checked ? Theme.LIGHT : Theme.DARK;
@@ -30,16 +50,24 @@ const MobileActions = memo(
       onClose();
     }, [onLogout, onClose]);
 
+    if (isHidden) {
+      return null;
+    }
+
     return (
       <div
-        className={styles.mobileMenuOverlay}
+        className={classNames(styles.mobileMenuOverlay, {
+          [styles.mobileMenuOverlayClosing]: isClosing,
+        })}
         onClick={onClose}
         role='dialog'
         aria-modal='true'
         aria-label='Mobile navigation menu'
       >
         <div
-          className={styles.mobileMenu}
+          className={classNames(styles.mobileMenu, {
+            [styles.mobileMenuClosing]: isClosing,
+          })}
           onClick={(e) => e.stopPropagation()}
           role='menu'
         >

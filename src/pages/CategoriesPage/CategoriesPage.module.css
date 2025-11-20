@@ -1,0 +1,133 @@
+.container {
+  min-height: calc(100vh - 80px);
+  padding: var(--space-8);
+  background: linear-gradient(
+    135deg,
+    var(--color-background) 0%,
+    var(--color-background-secondary) 100%
+  );
+  border-radius: var(--radius-lg);
+}
+
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: var(--text-3xl);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-8);
+  line-height: var(--leading-tight);
+}
+
+.categoriesGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.categoryCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  gap: var(--space-2);
+  min-height: 80px;
+  flex: 0 0 calc(14.285% - var(--space-4));
+  max-width: calc(14.285% - var(--space-4));
+  min-width: 100px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.categoryCard:hover .iconWrapper,
+.categoryCard:active .iconWrapper {
+  transform: scale(1.15);
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  border-radius: var(--radius-full);
+  transition: all var(--transition-base);
+}
+
+.icon {
+  transition: all var(--transition-base);
+}
+
+.categoryTitle {
+  font-size: var(--text-base);
+  font-weight: var(--font-medium);
+  color: var(--color-text-primary);
+  text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: var(--space-4);
+  }
+
+  .title {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-6);
+  }
+
+  .categoriesGrid {
+    gap: var(--space-3);
+  }
+
+  .categoryCard {
+    padding: var(--space-2);
+    min-height: 70px;
+    flex: 0 0 calc(25% - var(--space-3));
+    max-width: calc(25% - var(--space-3));
+    min-width: 90px;
+  }
+
+  .iconWrapper {
+    width: 60px;
+    height: 60px;
+  }
+
+  .icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .categoryTitle {
+    font-size: var(--text-sm);
+  }
+}
+
+@media (max-width: 480px) {
+  .categoriesGrid {
+    gap: var(--space-2);
+  }
+
+  .categoryCard {
+    padding: var(--space-2);
+    min-height: 60px;
+    flex: 0 0 calc(33.333% - var(--space-2));
+    max-width: calc(33.333% - var(--space-2));
+    min-width: 80px;
+  }
+
+  .iconWrapper {
+    width: 50px;
+    height: 50px;
+  }
+
+  .icon {
+    width: 24px;
+    height: 24px;
+  }
+}
