@@ -2,6 +2,19 @@
   padding: var(--space-4) var(--space-8);
   border-bottom: 1px solid var(--color-border);
   background-color: var(--color-background-secondary);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  flex-shrink: 0;
+  border-bottom-left-radius: var(--radius-lg);
+  border-bottom-right-radius: var(--radius-lg);
+  height: 64px;
+}
+
+@media (min-width: 768px) {
+  .header {
+    height: 80px;
+  }
 }
 
 .nav {
@@ -60,12 +73,38 @@
   animation: slideInLeft 0.3s ease-out;
 }
 
+.mobileMenuClosing {
+  animation: slideOutLeft 0.3s ease-out;
+}
+
+.mobileMenuOverlayClosing {
+  animation: fadeOut 0.3s ease-out;
+}
+
 @keyframes slideInLeft {
   from {
     transform: translateX(-100%);
   }
   to {
     transform: translateX(0);
+  }
+}
+
+@keyframes slideOutLeft {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
   }
 }
 

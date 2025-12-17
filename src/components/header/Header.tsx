@@ -73,9 +73,10 @@ const Header = memo(() => {
         />
       </nav>
 
-      {isMobile && isMobileMenuOpen && (
+      {isMobile && (
         <MobileActions
           onClose={closeMobileMenu}
+          isMobileMenuOpen={isMobileMenuOpen}
           language={language}
           onLogout={handleLogout}
         />

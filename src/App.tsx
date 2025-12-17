@@ -4,13 +4,15 @@ import { useState, Suspense, lazy } from 'react';
 import { Routes } from 'src/constants';
 import LoginPage from 'src/pages/LoginPage.tsx';
 import RegisterPage from 'src/pages/RegisterPage.tsx';
-import Dashboard from 'src/pages/Dashboard.tsx';
+import Dashboard from 'src/pages/DashboardPage/Dashboard';
 import Layout from 'src/components/layout/Layout.tsx';
 import Loader from 'src/components/loader/Loader.tsx';
 import { useThemeEffect } from 'src/hooks/useThemeEffect.ts';
 
 // Lazy load pages (except DASHBOARD, LOGIN, and REGISTER)
-const CategoriesPage = lazy(() => import('src/pages/CategoriesPage.tsx'));
+const CategoriesPage = lazy(
+  () => import('src/pages/CategoriesPage/CategoriesPage'),
+);
 const ProfilePage = lazy(() => import('src/pages/ProfilePage.tsx'));
 const NotFound = lazy(() => import('src/pages/NotFoundPage/NotFound'));
 
